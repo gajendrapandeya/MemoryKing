@@ -21,7 +21,8 @@
             android:id="@+id/rbEasy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Easy (4x2)" />
+            android:text="Easy (4x2)"
+            android:checked="true"/>
 
         <RadioButton
             android:id="@+id/rbMedium"
