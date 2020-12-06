@@ -10,6 +10,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.codermonkeys.mymemory.models.BoardSize
 import com.codermonkeys.mymemory.models.MemoryCard
 import kotlin.math.min
@@ -24,7 +25,7 @@ class MemoryBoardAdapter(
 
     companion object {
         private const val MARGIN_SIZE = 10
-        private const val TAG  = "MemoryBoardAdapter"
+        private const val TAG = "MemoryBoardAdapter"
     }
 
     interface CardClickListener {
@@ -36,7 +37,8 @@ class MemoryBoardAdapter(
         val cardHeight = parent.height / boardSize.getHeight() - (2 * MARGIN_SIZE)
         val cardSideLength = min(cardWidth, cardHeight)
         val view = LayoutInflater.from(context).inflate(R.layout.memory_card, parent, false)
-        val layoutParams = view.findViewById<CardView>(R.id.cardView).layoutParams as ViewGroup.MarginLayoutParams
+        val layoutParams =
+            view.findViewById<CardView>(R.id.cardView).layoutParams as ViewGroup.MarginLayoutParams
         layoutParams.width = cardSideLength
         layoutParams.height = cardSideLength
         layoutParams.setMargins(MARGIN_SIZE, MARGIN_SIZE, MARGIN_SIZE, MARGIN_SIZE)
@@ -44,21 +46,37 @@ class MemoryBoardAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-       holder.bind(position)
+        holder.bind(position)
     }
 
     override fun getItemCount() = boardSize.numCards
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val imageButton  = itemView.findViewById<ImageButton>(R.id.imageButton)
+        private val imageButton = itemView.findViewById<ImageButton>(R.id.imageButton)
 
         fun bind(position: Int) {
             val memoryCard = cards[position]
-            imageButton.setImageResource(if(memoryCard.isFaceUp) memoryCard.identifier else R.drawable.bamboo)
+            if (memoryCard.isFaceUp) {
+                if (memoryCard.imageUrl != null) {
+                    Glide
+                        .with(context)
+                        .load(memoryCard.imageUrl)
+                        .centerCrop()
+                        .placeholder(R.drawable.ic_image)
+                        .into(imageButton);
+                } else {
+                    imageButton.setImageResource(memoryCard.identifier)
+                }
+            } else {
+                imageButton.setImageResource(R.drawable.bamboo)
+            }
 
-            imageButton.alpha = if(memoryCard.isMatched) .4f else 1.0f
-            val colorStateList = if(memoryCard.isMatched) ContextCompat.getColorStateList(context, R.color.color_grey) else null
+            imageButton.alpha = if (memoryCard.isMatched) .4f else 1.0f
+            val colorStateList = if (memoryCard.isMatched) ContextCompat.getColorStateList(
+                context,
+                R.color.color_grey
+            ) else null
             ViewCompat.setBackgroundTintList(imageButton, colorStateList)
 
             imageButton.setOnClickListener {

@@ -11,6 +11,10 @@ enum class BoardSize(val numCards: Int) {
         HARD -> 4
     }
 
+    companion object {
+        fun getByValue(value: Int) = values().first { it.numCards == value }
+    }
+
     fun getHeight() = numCards / getWidth()
 
     fun getNumPairs() = numCards / 2

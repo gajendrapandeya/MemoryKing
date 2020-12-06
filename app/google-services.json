@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "437597198051",
+    "project_id": "memory-king-d09f1",
+    "storage_bucket": "memory-king-d09f1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:437597198051:android:ae5d271be2839c8faf97d6",
+        "android_client_info": {
+          "package_name": "com.codermonkeys.mymemory"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "437597198051-4tnutk441j7k6acn2rppr6hhskoohgg4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDAc_3uJO2_ocBM7LsnjppwG6yyTUi31Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "437597198051-4tnutk441j7k6acn2rppr6hhskoohgg4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
