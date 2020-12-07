@@ -8,6 +8,7 @@
 
     <Button
         android:id="@+id/btnSave"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -17,32 +18,42 @@
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeColor="@color/colorBtnLight" />
 
-    <EditText
-        android:id="@+id/etGameName"
-        android:layout_width="0dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/et_textContainer"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/btnSave"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:digits="1234567890abcdefghijklmnopqrstuvwxyz_-"
-        android:ems="10"
-        android:hint="Game name (example: 'toodle_fun')"
-        android:imeOptions="actionDone"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:maxLines="1"
-        app:layout_constraintBottom_toTopOf="@+id/btnSave"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:hint="Game name (example: 'toodle_fun')">
+
+        <!--this is the actual edit text which takes the input-->
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etGameName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:digits="1234567890abcdefghijklmnopqrstuvwxyz_-"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:maxLines="1"
+            android:ems="10"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvImagePicker"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:overScrollMode="never"
-        app:layout_constraintBottom_toTopOf="@+id/etGameName"
+        app:layout_constraintBottom_toTopOf="@+id/et_textContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

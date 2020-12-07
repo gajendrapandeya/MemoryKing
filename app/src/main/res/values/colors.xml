@@ -18,4 +18,6 @@
     <color name="primaryLightColorLightTheme">#60ad5e</color>
     <color name="primaryDarkColorLightTheme">#005005</color>
     <color name="primaryTextColorLightTheme">#ffffff</color>
+    <color name="colorBtnDark">#1FDE22</color>
+    <color name="colorBtnLight">#1FAEDE</color>
 </resources>

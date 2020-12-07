@@ -2,6 +2,7 @@ package com.codermonkeys.mymemory.models
 
 import com.codermonkeys.mymemory.utils.DEFAULT_ICONS
 
+
 class MemoryGame(private val boardSize: BoardSize,
                  private val customImages: List<String>?) {
     var cards: List<MemoryCard>
@@ -71,5 +72,13 @@ class MemoryGame(private val boardSize: BoardSize,
 
     fun getNumMoves(): Int {
         return numCardFlipped / 2
+    }
+
+    fun getNumMovesLeft(): Int {
+        return when(boardSize) {
+            BoardSize.EASY -> boardSize.getNoOfMovesLeft() - getNumMoves()
+            BoardSize.MEDIUM -> boardSize.getNoOfMovesLeft() - getNumMoves()
+            BoardSize.HARD -> boardSize.getNoOfMovesLeft() - getNumMoves()
+        }
     }
 }

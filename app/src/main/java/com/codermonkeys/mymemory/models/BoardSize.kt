@@ -1,5 +1,7 @@
 package com.codermonkeys.mymemory.models
 
+
+
 enum class BoardSize(val numCards: Int) {
     EASY(8),
     MEDIUM(18),
@@ -18,4 +20,10 @@ enum class BoardSize(val numCards: Int) {
     fun getHeight() = numCards / getWidth()
 
     fun getNumPairs() = numCards / 2
+
+    fun getNoOfMovesLeft() = when(this) {
+        EASY -> 6
+        MEDIUM -> 12
+        HARD -> 18
+    }
 }

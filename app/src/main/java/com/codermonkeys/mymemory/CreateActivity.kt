@@ -57,6 +57,7 @@ class CreateActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.Theme_MyMemory)
         setContentView(R.layout.activity_create)
 
         rvImagePicker = findViewById(R.id.rvImagePicker)

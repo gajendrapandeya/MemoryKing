@@ -17,15 +17,16 @@
             android:layout_height="wrap_content"
             android:background="?attr/colorSecondaryVariant"
             android:orientation="horizontal"
+            android:weightSum="100"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
             <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                android:layout_weight="1"
+                android:layout_weight="30"
                 app:cardCornerRadius="8dp">
 
                 <TextView
@@ -33,16 +34,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:padding="8dp"
+                    android:padding="4dp"
                     android:text="@string/moves_0"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                android:layout_weight="1"
+                android:layout_weight="30"
                 app:cardCornerRadius="8dp">
 
                 <TextView
@@ -50,8 +51,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:padding="8dp"
+                    android:padding="4dp"
                     android:text="@string/pairs_0_4"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="40"
+                app:cardCornerRadius="8dp">
+
+                <TextView
+                    android:id="@+id/tvNumMovesLeft"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:text="Moves Left"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
             </androidx.cardview.widget.CardView>
         </LinearLayout>

@@ -4,7 +4,6 @@ import android.animation.ArgbEvaluator
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,7 +14,7 @@ import android.widget.EditText
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
@@ -43,6 +42,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var clRoot: CoordinatorLayout
     private lateinit var rvBoard: RecyclerView
     private lateinit var tvNumMoves: TextView
+    private lateinit var tvNumMovesLeft: TextView
     private lateinit var tvNumPairs: TextView
 
     private var gameName: String? = null
@@ -54,12 +54,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.Theme_MyMemory)
         setContentView(R.layout.activity_main)
 
         clRoot = findViewById(R.id.clRoot)
         rvBoard = findViewById(R.id.rvBoard)
         tvNumMoves = findViewById(R.id.tvNumMoves)
         tvNumPairs = findViewById(R.id.tvNumPairs)
+        tvNumMovesLeft = findViewById(R.id.tvNumMovesLeft)
 
         setUpBoard()
     }
@@ -73,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.mi_refresh -> {
                 //Setup the game again
-                if(memoryGame.getNumMoves() > 0 && !memoryGame.haveWonGame()) {
+                if (memoryGame.getNumMoves() > 0 && !memoryGame.haveWonGame()) {
                     showAlertDialog("Are you sure to Quit the game?", null, View.OnClickListener {
                         setUpBoard()
                     })
@@ -102,10 +104,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if(requestCode == CREATE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == CREATE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             val customGameName = data?.getStringExtra(EXTRA_GAME_NAME)
-            if(customGameName == null) {
-                Log.e(TAG, "Got null custom game name from CreateActivity: ", )
+            if (customGameName == null) {
+                Log.e(TAG, "Got null custom game name from CreateActivity: ")
                 return
             }
             downloadGame(customGameName)
@@ -114,7 +116,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showDownloadDialog() {
-        val boardDownloadView = LayoutInflater.from(this).inflate(R.layout.dialog_download_board, null)
+        val boardDownloadView = LayoutInflater.from(this).inflate(
+            R.layout.dialog_download_board,
+            null
+        )
         showAlertDialog("Fetch Memory Game", boardDownloadView, View.OnClickListener {
             //Grab the text name that the user wants to download
             val etDownloadGame = boardDownloadView.findViewById<EditText>(R.id.etDownloadGame)
@@ -124,24 +129,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun downloadGame(customGameName: String) {
-        db.collection("games").document(customGameName).get().addOnSuccessListener {document->
+        db.collection("games").document(customGameName).get().addOnSuccessListener { document ->
             val userImageList = document.toObject(UserImageList::class.java)
-            if(userImageList?.images == null) {
-                Log.e(TAG, "Invalid custom game data from FireStore ", )
-                Snackbar.make(clRoot, "Sorry, we couldn't find any such game '$customGameName'", Snackbar.LENGTH_SHORT).show()
+            if (userImageList?.images == null) {
+                Log.e(TAG, "Invalid custom game data from FireStore ")
+                Snackbar.make(
+                    clRoot,
+                    "Sorry, we couldn't find any such game '$customGameName'",
+                    Snackbar.LENGTH_SHORT
+                ).show()
                 return@addOnSuccessListener
             }
             val numCards = userImageList.images.size * 2
             boardSize = BoardSize.getByValue(numCards)
             customGameImages = userImageList.images
-            for(imageUrl in userImageList.images) {
+            for (imageUrl in userImageList.images) {
                 Glide.with(this).load(imageUrl).preload()
             }
-            Snackbar.make(clRoot, "You're now playing '$customGameName'", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(clRoot, "You're now playing '$customGameName'", Snackbar.LENGTH_LONG)
+                .show()
             gameName = customGameName
             setUpBoard()
         }.addOnFailureListener {
-            Log.e(TAG, "Exception when retrieving game ", it )
+            Log.e(TAG, "Exception when retrieving game ", it)
         }
     }
 
@@ -151,7 +161,7 @@ class MainActivity : AppCompatActivity() {
 
         showAlertDialog("Create your own memory board", boardSizeView, View.OnClickListener {
             //set a new value for the board size
-            val desiredBoardSize = when(radioGroupSize.checkedRadioButtonId) {
+            val desiredBoardSize = when (radioGroupSize.checkedRadioButtonId) {
                 R.id.rbEasy -> BoardSize.EASY
                 R.id.rbMedium -> BoardSize.MEDIUM
                 else -> BoardSize.HARD
@@ -167,7 +177,7 @@ class MainActivity : AppCompatActivity() {
         val boardSizeView = LayoutInflater.from(this).inflate(R.layout.dialog_board_size, null)
         val radioGroupSize = boardSizeView.findViewById<RadioGroup>(R.id.radioGroup)
 
-        when(boardSize) {
+        when (boardSize) {
             BoardSize.EASY -> radioGroupSize.check(R.id.rbEasy)
             BoardSize.MEDIUM -> radioGroupSize.check(R.id.rbMedium)
             BoardSize.HARD -> radioGroupSize.check(R.id.rbHard)
@@ -175,7 +185,7 @@ class MainActivity : AppCompatActivity() {
 
         showAlertDialog("Choose new size", boardSizeView, View.OnClickListener {
             //set a new value for the board size
-            boardSize = when(radioGroupSize.checkedRadioButtonId) {
+            boardSize = when (radioGroupSize.checkedRadioButtonId) {
                 R.id.rbEasy -> BoardSize.EASY
                 R.id.rbMedium -> BoardSize.MEDIUM
                 else -> BoardSize.HARD
@@ -186,19 +196,23 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun showAlertDialog(title: String, view: View?, positiveClickListener: View.OnClickListener) {
+    private fun showAlertDialog(
+        title: String,
+        view: View?,
+        positiveClickListener: View.OnClickListener
+    ) {
         AlertDialog.Builder(this)
             .setTitle(title)
             .setView(view)
             .setNegativeButton("Cancel", null)
-            .setPositiveButton("OK") {_, _ ->
+            .setPositiveButton("OK") { _, _ ->
                 positiveClickListener.onClick(null)
             }.show()
     }
 
     private fun setUpBoard() {
         supportActionBar?.title = gameName ?: getString(R.string.app_name)
-        when(boardSize) {
+        when (boardSize) {
             BoardSize.EASY -> {
                 tvNumMoves.text = "Easy: 4 x 2"
                 tvNumPairs.text = "Pairs: 0 / 4"
@@ -212,9 +226,10 @@ class MainActivity : AppCompatActivity() {
                 tvNumPairs.text = "Pairs: 0 / 12"
             }
         }
+
         tvNumPairs.setTextColor(ContextCompat.getColor(this, R.color.color_progress_none))
         memoryGame = MemoryGame(boardSize, customGameImages)
-
+        tvNumMovesLeft.text = "Moves Left: ${memoryGame.getNumMovesLeft()}"
         adapter = MemoryBoardAdapter(
             this,
             boardSize,
@@ -254,14 +269,38 @@ class MainActivity : AppCompatActivity() {
             ) as Int
             tvNumPairs.setTextColor(color)
             tvNumPairs.text = "Pairs: ${memoryGame.numPairsFound} / ${boardSize.getNumPairs()}"
+
             if (memoryGame.haveWonGame()) {
                 Snackbar.make(clRoot, "You Won. Congratulations!!", Snackbar.LENGTH_SHORT).show()
-                CommonConfetti.rainingConfetti(clRoot, intArrayOf(Color.YELLOW, Color.GREEN, Color.MAGENTA)).oneShot()
+                CommonConfetti.rainingConfetti(
+                    clRoot, intArrayOf(
+                        Color.YELLOW,
+                        Color.GREEN,
+                        Color.MAGENTA
+                    )
+                ).oneShot()
             }
         }
-
         tvNumMoves.text = "Moves: ${memoryGame.getNumMoves()}"
-
+        //Logic for Moves Left
+        if (memoryGame.getNumMoves() > boardSize.getNoOfMovesLeft()) {
+            showUnCancelableAlertDialog()
+        } else {
+            tvNumMovesLeft.text = "Moves Left: ${memoryGame.getNumMovesLeft()}"
+        }
         adapter.notifyDataSetChanged()
+    }
+
+    private fun showUnCancelableAlertDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Game Over!!. Better luck next time")
+            .setCancelable(false)
+            .setPositiveButton("OK") { dialog, id ->
+                gameName = null
+                customGameImages = null
+                setUpBoard()
+            }
+        val alert = builder.create()
+        alert.show()
     }
 }
