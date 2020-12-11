@@ -8,7 +8,6 @@ import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
@@ -21,7 +20,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.constraintlayout.widget.Group
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.codermonkeys.mymemory.models.BoardSize
@@ -215,9 +214,11 @@ class CreateActivity : AppCompatActivity() {
                         pbUploading.visibility = View.GONE
                         return@addOnCompleteListener
                     }
+                    val progressPercentage = uploadedImageUrls.size * 100 / chosenImagesUri.size
+                    pbUploading.setProgress(progressPercentage, true)
                     val downloadUrl = downloadUrlTask.result.toString()
                     uploadedImageUrls.add(downloadUrl)
-                    pbUploading.progress = uploadedImageUrls.size * 100 / chosenImagesUri.size
+                   // pbUploading.progress = uploadedImageUrls.size * 100 / chosenImagesUri.size
                     Log.i(TAG, "Finished Uploading $photoUri, num uploaded ${uploadedImageUrls.size}")
                     if(uploadedImageUrls.size == chosenImagesUri.size){
                         handleAllImagesUploaded(gameName, uploadedImageUrls)

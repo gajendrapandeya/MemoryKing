@@ -2,4 +2,17 @@
     <string name="app_name">Memory King</string>
     <string name="moves_0">Moves: 0</string>
     <string name="pairs_0_4">Pairs: 0/4</string>
+    <string name="timer_mode">Timer Mode</string>
+    <string name="move_mode">Move Mode</string>
+    <string name="refresh">Refresh</string>
+    <string name="choose_new_size">Choose new size</string>
+    <string name="create_custom_game">Create Custom Game</string>
+    <string name="download_custom_game">Download Custom Game</string>
+    <string name="enter_game_name">Enter Game Name</string>
+    <string name="available_game_names">Available Game Names</string>
+    <string name="game_name_example_toodle_fun">Game name (example: \'toodle_fun\')</string>
+    <string name="save">Save</string>
+    <string name="medium_6x3">Medium (6x3)</string>
+    <string name="hard_6_x4">Hard (6 x4)</string>
+    <string name="easy_4x2">Easy (4x2)</string>
 </resources>

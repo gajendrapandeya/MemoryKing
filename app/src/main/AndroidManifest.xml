@@ -12,6 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/SplashScreenTheme">
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-8745782163410686~7021923948"/>
+
         <activity android:name=".CreateActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".MainActivity"

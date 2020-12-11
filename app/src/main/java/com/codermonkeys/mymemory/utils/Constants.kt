@@ -4,6 +4,9 @@ import com.codermonkeys.mymemory.R
 
 const val EXTRA_BOARD_SIZE = "EXTRA_BOARD_SIZE"
 const val EXTRA_GAME_NAME = "EXTRA_GAME_NAME"
+const val MOVE_EASY = 6
+const val MOVE_MEDIUM = 12
+const val MOVE_HARD = 18
 val DEFAULT_ICONS = listOf(
     R.drawable.ic_face,
     R.drawable.ic_flower,
