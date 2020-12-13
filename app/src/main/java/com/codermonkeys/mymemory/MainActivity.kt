@@ -2,9 +2,13 @@ package com.codermonkeys.mymemory
 
 import android.animation.ArgbEvaluator
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
@@ -46,6 +50,7 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val TAG = "MainActivity"
         private const val CREATE_REQUEST_CODE = 18
+        private const val VIBRATION_TIME = 1000L
     }
 
     private lateinit var clRoot: CoordinatorLayout
@@ -81,8 +86,8 @@ class MainActivity : AppCompatActivity() {
         firebaseAnalytics = Firebase.analytics
 
         mInterstitialAd = InterstitialAd(this)
-        mInterstitialAd.adUnitId = "ca-app-pub-3940256099942544/1033173712"
-        mInterstitialAd.loadAd(AdRequest.Builder().build())
+        //mInterstitialAd.adUnitId = "ca-app-pub-8745782163410686/9181183420"
+        //mInterstitialAd.loadAd(AdRequest.Builder().build())
 
         setUpBoard()
     }
@@ -320,6 +325,7 @@ class MainActivity : AppCompatActivity() {
             if (memoryGame.haveWonGame()) {
                 Snackbar.make(clRoot, "You Won. Congratulations!!", Snackbar.LENGTH_SHORT).show()
                 showConfetti()
+                vibrateOnWinning()
             }
         }
         tvNumMoves.text = "Moves: ${memoryGame.getNumMoves()}"
@@ -432,6 +438,15 @@ class MainActivity : AppCompatActivity() {
                 dialog.show()
                 Log.d(TAG, "insideloop: $gameNames")
             }
+        }
+    }
+
+    private fun vibrateOnWinning() {
+        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(VIBRATION_TIME, VibrationEffect.DEFAULT_AMPLITUDE))
+        } else {
+            vibrator.vibrate(VIBRATION_TIME)
         }
     }
 }

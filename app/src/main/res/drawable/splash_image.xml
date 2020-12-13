@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/black"/>
-    <item android:drawable="@drawable/ic_brain" android:gravity="center" android:height="200dp"
-        android:width="200dp"/>
+    <item android:drawable="@color/black" />
+    <item
+        android:width="400dp"
+        android:height="400dp"
+        android:drawable="@drawable/icon"
+        android:gravity="center" />
 </layer-list>
